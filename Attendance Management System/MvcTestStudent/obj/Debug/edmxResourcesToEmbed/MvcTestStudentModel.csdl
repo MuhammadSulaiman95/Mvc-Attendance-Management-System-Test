@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="demoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="demoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Students" EntityType="demoModel.Student" />
+    <EntitySet Name="StudentsAttendances" EntityType="demoModel.StudentsAttendance" />
+    <AssociationSet Name="FK_StudentsAttendances_Students" Association="demoModel.FK_StudentsAttendances_Students">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="StudentsAttendance" EntitySet="StudentsAttendances" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="StudentsAttendances" Relationship="demoModel.FK_StudentsAttendances_Students" FromRole="Student" ToRole="StudentsAttendance" />
+  </EntityType>
+  <EntityType Name="StudentsAttendance">
+    <Key>
+      <PropertyRef Name="AttendanceId" />
+    </Key>
+    <Property Name="AttendanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="StudentId" Type="Int32" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Student" Relationship="demoModel.FK_StudentsAttendances_Students" FromRole="StudentsAttendance" ToRole="Student" />
+  </EntityType>
+  <Association Name="FK_StudentsAttendances_Students">
+    <End Type="demoModel.Student" Role="Student" Multiplicity="0..1" />
+    <End Type="demoModel.StudentsAttendance" Role="StudentsAttendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StudentId" />
+      </Principal>
+      <Dependent Role="StudentsAttendance">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+
+@TempData["message"]
+
+@using (Html.BeginForm())
+{
+
+    <h2>Date :</h2>
+    <input type="date" id="attendanceDate" name="attendanceDate"  />
+
+<table class="table">
+
+
+    <tr>
+        <th>
+            Student Name 
+        </th>
+        <th>Mark Attendances</th>
+    </tr>
+
+@foreach (var student in ViewBag.students)
+{
+    <tr>
+        <td>
+            @student.StudentName
+        </td>
+        <td>
+            <input type="checkbox" id="checkes" name="checkes" value="@student.StudentId" />            
+        </td>
+    </tr>
+   
+}
+    
+</table>
+
+        <input type="submit" value="Mark" id="btnMark" />
+
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+    $(document).ready(function (event) {
+        
+        $("#btnMark").prop('disabled', true);
+    });
+
+    $("#attendanceDate").change(function (event) {
+        $("#btnMark").removeProp('disabled');
+    });
+
+</script>

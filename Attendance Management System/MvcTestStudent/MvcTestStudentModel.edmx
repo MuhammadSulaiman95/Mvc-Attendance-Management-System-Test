@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="demoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="StudentsAttendances">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StudentId" Type="int" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <Association Name="FK_StudentsAttendances_Students">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="StudentsAttendances" Type="Self.StudentsAttendances" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="StudentsAttendances">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="demoModelStoreContainer">
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentsAttendances" EntityType="Self.StudentsAttendances" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_StudentsAttendances_Students" Association="Self.FK_StudentsAttendances_Students">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="StudentsAttendances" EntitySet="StudentsAttendances" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="demoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="demoEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Students" EntityType="demoModel.Student" />
+          <EntitySet Name="StudentsAttendances" EntityType="demoModel.StudentsAttendance" />
+          <AssociationSet Name="FK_StudentsAttendances_Students" Association="demoModel.FK_StudentsAttendances_Students">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="StudentsAttendance" EntitySet="StudentsAttendances" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="StudentId" />
+          </Key>
+          <Property Name="StudentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="StudentsAttendances" Relationship="demoModel.FK_StudentsAttendances_Students" FromRole="Student" ToRole="StudentsAttendance" />
+        </EntityType>
+        <EntityType Name="StudentsAttendance">
+          <Key>
+            <PropertyRef Name="AttendanceId" />
+          </Key>
+          <Property Name="AttendanceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StudentId" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Student" Relationship="demoModel.FK_StudentsAttendances_Students" FromRole="StudentsAttendance" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_StudentsAttendances_Students">
+          <End Type="demoModel.Student" Role="Student" Multiplicity="0..1" />
+          <End Type="demoModel.StudentsAttendance" Role="StudentsAttendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="StudentId" />
+            </Principal>
+            <Dependent Role="StudentsAttendance">
+              <PropertyRef Name="StudentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="demoModelStoreContainer" CdmEntityContainer="demoEntities" >
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="demoModel.Student">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="StudentName" ColumnName="StudentName" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentsAttendances">
+            <EntityTypeMapping TypeName="demoModel.StudentsAttendance">
+              <MappingFragment StoreEntitySet="StudentsAttendances">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StudentId" ColumnName="StudentId" />
+                <ScalarProperty Name="AttendanceId" ColumnName="AttendanceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

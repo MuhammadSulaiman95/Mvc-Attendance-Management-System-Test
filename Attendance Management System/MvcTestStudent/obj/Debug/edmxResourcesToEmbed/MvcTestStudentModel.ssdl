@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="demoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="StudentId" />
+    </Key>
+    <Property Name="StudentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="StudentsAttendances">
+    <Key>
+      <PropertyRef Name="AttendanceId" />
+    </Key>
+    <Property Name="AttendanceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentId" Type="int" />
+    <Property Name="Date" Type="date" />
+  </EntityType>
+  <Association Name="FK_StudentsAttendances_Students">
+    <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+    <End Role="StudentsAttendances" Type="Self.StudentsAttendances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="StudentId" />
+      </Principal>
+      <Dependent Role="StudentsAttendances">
+        <PropertyRef Name="StudentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="demoModelStoreContainer">
+    <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="StudentsAttendances" EntityType="Self.StudentsAttendances" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_StudentsAttendances_Students" Association="Self.FK_StudentsAttendances_Students">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="StudentsAttendances" EntitySet="StudentsAttendances" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
