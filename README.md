@@ -1,0 +1,3 @@
+# Mvc-Attendance-Management-System-Test
+It is a slightly mantained Attendance Management System Of Student By Date With Asp.NET Mvc, C#...
+Html,Css & JavaScript is used for FrontEnd Development.
